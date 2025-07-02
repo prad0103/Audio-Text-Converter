@@ -1,16 +1,40 @@
-h1 {
-    font-family: 'Tilt Prism', cursive;
-    color:white;
+body {
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background: #121212;
+  color: white;
 }
-button{
-    font-family: 'Source Code Pro', monospace;
-    color:white;
-    background-color: rgb(82, 3, 3);
+
+.container {
+  text-align: center;
+  max-width: 600px;
+  padding: 20px;
+  border-radius: 12px;
+  background: #1e1e1e;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
 }
-body{
-  
-    background-image:url("textimage.jpg")
+
+button {
+  padding: 10px 20px;
+  margin: 20px 0;
+  font-size: 18px;
+  background: #03dac5;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
-.textarea{
-    background: url("textimage.jpg");
+
+#output {
+  border: 1px solid #444;
+  background: #222;
+  padding: 15px;
+  min-height: 150px;
+  border-radius: 8px;
+  margin-top: 10px;
+  text-align: left;
 }

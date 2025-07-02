@@ -1,41 +1,40 @@
-var SpeechRecognition = window.webkitSpeechRecognition;
+const output = document.getElementById("output");
+const btn = document.getElementById("startStopBtn");
 
-// var myLang = mySpeechRecognition.lang;
+let isListening = false;
+let recognition;
 
-var recognition = new SpeechRecognition();
-recognition.lang = 'hi-IN';
+if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechRecognition();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.lang = "en-US";
 
-var Textbox = $("#textarea");
-var instructions = $("#instructions");
-
-var Content = "";
-
-recognition.continuous = true;
-
-recognition.onresult = function (event) {
-  var current = event.resultIndex;
-
-  var transcript = event.results[current][0].transcript;
-
-  Content += transcript;
-  Textbox.val(Content);
-};
-
-$("#start").on("click", function (e) {
-  if ($(this).text() == "Click here to Stop Recording") {
-    $(this).html("Click here to Start Recording");
-    $("#instructions").html("");
-    recognition.stop();
-  } else {
-    $(this).html("Click here to Stop Recording");
-    $("#instructions").html("Try Speaking, Voice Recognition is On, Contents will be displayed below");
-    if (Content.length) {
-      Content += " ";
+  recognition.onresult = (event) => {
+    let transcript = '';
+    for (let i = event.resultIndex; i < event.results.length; ++i) {
+      transcript += event.results[i][0].transcript;
     }
-    recognition.start();
-  }
-});
+    output.textContent = transcript;
+  };
 
-Textbox.on("input", function () {
-  Content = $(this).val();
+  recognition.onend = () => {
+    if (isListening) recognition.start(); // auto-restart if still listening
+  };
+
+} else {
+  alert("Sorry, your browser doesn't support Speech Recognition.");
+}
+
+btn.addEventListener("click", () => {
+  if (!isListening) {
+    recognition.start();
+    btn.textContent = "Stop Listening";
+    isListening = true;
+  } else {
+    recognition.stop();
+    btn.textContent = "Start Listening";
+    isListening = false;
+  }
 });
